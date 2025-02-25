@@ -3,6 +3,7 @@ package ray4rc.rayclient.ui.screens.clickgui;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import ray4rc.rayclient.modules.Mod;
 import ray4rc.rayclient.modules.Mod.Category;
 
 import java.awt.*;
@@ -28,6 +29,8 @@ public class Frame {
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         context.fill(x, y, x + width, y + height, Color.DARK_GRAY.getRGB());
         context.drawText(tr, category.name(), x + 2, y + 2, Color.WHITE.getRGB(), false);
+
+//        for (ModuleButton button : )
     }
 
     public void mouseClicked(double mouseX, double mouseY, int button) {
