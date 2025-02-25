@@ -6,6 +6,8 @@ import ray4rc.rayclient.modules.movement.Sprint;
 import java.util.ArrayList;
 import java.util.List;
 
+import ray4rc.rayclient.modules.Mod.Category;
+
 public class ModuleManager {
     public static final ModuleManager INSTANCE = new ModuleManager();
     private List<Mod> modules = new ArrayList<>();
@@ -24,6 +26,18 @@ public class ModuleManager {
         }
 
         return enabled;
+    }
+
+    public List<Mod> getModulesInCategory(Category category) {
+        List<Mod> categoryModules = new ArrayList<>();
+
+        for (Mod mod : modules) {
+            if (mod.getCategory() == category) {
+                categoryModules.add(mod);
+            }
+        }
+
+        return categoryModules;
     }
 
     private void addModules() {

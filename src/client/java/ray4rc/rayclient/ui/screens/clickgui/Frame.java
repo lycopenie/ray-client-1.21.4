@@ -5,8 +5,10 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import ray4rc.rayclient.modules.Mod;
 import ray4rc.rayclient.modules.Mod.Category;
+import ray4rc.rayclient.modules.ModuleManager;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Frame {
     public int x, y, width, height, dragX, dragY;
@@ -14,8 +16,10 @@ public class Frame {
 
     public boolean dragging;
 
-    private MinecraftClient mc = MinecraftClient.getInstance();
-    private TextRenderer tr = mc.textRenderer;
+    private ArrayList<ModuleButton> buttons;
+
+    protected MinecraftClient mc = MinecraftClient.getInstance();
+    protected TextRenderer tr = mc.textRenderer;
 
     public Frame(Category category, int x, int y, int width, int height) {
         this.x = x;
@@ -24,13 +28,23 @@ public class Frame {
         this.height = height;
         this.dragging = false;
         this.category = category;
+
+        buttons = new ArrayList<>();
+
+        int offset = height;
+        for (Mod mod : ModuleManager.INSTANCE.getModulesInCategory(category)) {
+            buttons.add(new ModuleButton(mod, this, offset));
+            offset += height;
+        }
     }
 
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         context.fill(x, y, x + width, y + height, Color.DARK_GRAY.getRGB());
         context.drawText(tr, category.name(), x + 2, y + 2, Color.WHITE.getRGB(), false);
 
-//        for (ModuleButton button : )
+        for (ModuleButton button : buttons) {
+            button.render(context, mouseX, mouseY, delta);
+        }
     }
 
     public void mouseClicked(double mouseX, double mouseY, int button) {
@@ -38,6 +52,11 @@ public class Frame {
             dragging = true;
             dragX = (int) (mouseX - x);
             dragY = (int) (mouseY - y);
+        }
+
+
+        for (ModuleButton mb : buttons) {
+            mb.mouseClicked(mouseX, mouseY, button);
         }
     }
 
