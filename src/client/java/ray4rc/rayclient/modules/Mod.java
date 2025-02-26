@@ -31,6 +31,10 @@ public class Mod {
 
     }
 
+    public void onRender() {
+
+    }
+
 
     public String getName() {
         return name;

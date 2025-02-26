@@ -42,4 +42,12 @@ public class RayClientClient implements ClientModInitializer {
 			}
 		}
 	}
+
+	public void onRender() {
+		if (mc.player != null) {
+			for (Mod module: ModuleManager.INSTANCE.getEnabledModules()) {
+				module.onRender();
+			}
+		}
+	}
 }

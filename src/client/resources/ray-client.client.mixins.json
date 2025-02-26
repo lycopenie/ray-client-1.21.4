@@ -1,13 +1,14 @@
 {
-	"required": true,
-	"package": "ray4rc.rayclient.mixin.client",
-	"compatibilityLevel": "JAVA_21",
-	"client": [
-      	"TickMixin",
-		"KeyboardMixin",
-		"InGameHudMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "package": "ray4rc.rayclient.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "InGameHudMixin",
+    "KeyboardMixin",
+    "RenderMixin",
+    "TickMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

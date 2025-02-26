@@ -1,27 +1,21 @@
 package ray4rc.rayclient.modules.combat;
 
-import net.minecraft.entity.EntityType;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
-import org.slf4j.ILoggerFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ray4rc.rayclient.modules.Mod;
-import net.minecraft.entity.Entity;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
-import static ray4rc.rayclient.RayClientClient.LOGGER;
-import static ray4rc.rayclient.RayClientClient.MOD_ID;
-
-
-public class KillAura extends Mod {
-    public KillAura() {
-        super("KillAura", "monkey see monkey kill", Category.COMBAT);
-        this.setKey(GLFW.GLFW_KEY_R);
+public class AimAssist extends Mod {
+    public AimAssist() {
+        super("AimAssist", "radiant 101", Category.COMBAT);
+        this.setKey(GLFW.GLFW_KEY_U);
     }
 
     static class EntityAttribute {
@@ -29,6 +23,7 @@ public class KillAura extends Mod {
         float distance;
         float health;
         float yaw;
+        float pitch;
 
         public Entity getEntity() {
             return entity;
@@ -46,37 +41,31 @@ public class KillAura extends Mod {
             return yaw;
         }
 
-        public EntityAttribute(Entity entity, float distance, float health, float yaw) {
+        public float getPitch() {
+            return pitch;
+        }
+
+        public EntityAttribute(Entity entity, float distance, float health, float yaw, float pitch) {
             this.entity = entity;
             this.distance = distance;
             this.health = health;
             this.yaw = yaw;
-
-
+            this.pitch = pitch;
         }
     }
 
     @Override
-    public void onTick() {
+    public void onRender() {
         assert mc.player != null;
         assert mc.world != null;
         assert mc.interactionManager != null;
 
         Vec3d playerPos = mc.player.getPos();
         float playerYaw = mc.player.getHeadYaw();
+        float playerPitch = mc.player.getPitch();
 
         Iterable<Entity> entities = mc.world.getEntities();
-        List<EntityAttribute> targets = new ArrayList<>();
-
-        if (mc.player.getAttackCooldownProgress(0.0f) < 1.0f) { // full cooldown
-            return;
-        }
-
-        if (mc.player.getVelocity().y >= -0.1f || mc.player.isOnGround()) { // criticals only
-            return;
-        } else {
-            LOGGER.info(String.valueOf(mc.player.getVelocity().y));
-        }
+        List<AimAssist.EntityAttribute> targets = new ArrayList<>();
 
         for (Entity entity : entities) {
             if (!entity.isAlive() || entity == mc.player || !(entity instanceof LivingEntity)) {
@@ -89,25 +78,30 @@ public class KillAura extends Mod {
 
             Vec3d entityPos = entity.getPos();
             double diffX = entityPos.x - playerPos.x;
+            double diffY = entityPos.y - playerPos.y;
             double diffZ = entityPos.z - playerPos.z;
+            double horizontalDistance = Math.sqrt(diffX * diffX + diffZ * diffZ);
 
             float yaw = MathHelper.wrapDegrees((float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90.0f);
-            yaw = MathHelper.wrapDegrees(yaw - playerYaw);
-            yaw = Math.abs(yaw);
+            yaw = MathHelper.wrapDegrees(yaw);
+
+            float pitch = (float) -Math.toDegrees(Math.atan2(diffY, horizontalDistance));
+            pitch = MathHelper.wrapDegrees(pitch);
+
             float health = ((LivingEntity) entity).getHealth();
 
-            targets.add(new EntityAttribute(entity, dist, health, yaw));
+            targets.add(new AimAssist.EntityAttribute(entity, dist, health, yaw, pitch));
         }
         if (targets.isEmpty()) {
             return;
         }
 
-        targets.sort(Comparator.comparing(EntityAttribute::getYaw));
+        targets.sort(Comparator.comparing(AimAssist.EntityAttribute::getYaw));
+        EntityAttribute targetAttribute = targets.getFirst();
+        Entity target = targetAttribute.getEntity();
 
-        Entity target = targets.getFirst().getEntity();
-
-
-        mc.interactionManager.attackEntity(mc.player, target);
-        mc.player.swingHand(Hand.MAIN_HAND);
+        mc.player.setYaw(targetAttribute.getYaw());
+        mc.player.setPitch(targetAttribute.getPitch());
+        super.onTick();
     }
 }

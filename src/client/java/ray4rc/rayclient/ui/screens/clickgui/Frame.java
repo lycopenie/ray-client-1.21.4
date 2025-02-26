@@ -15,6 +15,7 @@ public class Frame {
     public Category category;
 
     public boolean dragging;
+    public boolean extended;
 
     private ArrayList<ModuleButton> buttons;
 
@@ -27,6 +28,7 @@ public class Frame {
         this.width = width;
         this.height = height;
         this.dragging = false;
+        this.extended = false;
         this.category = category;
 
         buttons = new ArrayList<>();
@@ -42,16 +44,23 @@ public class Frame {
         context.fill(x, y, x + width, y + height, Color.DARK_GRAY.getRGB());
         context.drawText(tr, category.name(), x + 2, y + 2, Color.WHITE.getRGB(), false);
 
-        for (ModuleButton button : buttons) {
-            button.render(context, mouseX, mouseY, delta);
+        if (extended) {
+            for (ModuleButton button : buttons) {
+                button.render(context, mouseX, mouseY, delta);
+            }
         }
     }
 
     public void mouseClicked(double mouseX, double mouseY, int button) {
-        if (isHovered(mouseX, mouseY) && button == 0) {
-            dragging = true;
-            dragX = (int) (mouseX - x);
-            dragY = (int) (mouseY - y);
+        if (isHovered(mouseX, mouseY)) {
+             if (button == 0) {
+                 dragging = true;
+                 dragX = (int) (mouseX - x);
+                 dragY = (int) (mouseY - y);
+             } else if (button == 1) {
+                 extended = !extended;
+             }
+
         }
 
 

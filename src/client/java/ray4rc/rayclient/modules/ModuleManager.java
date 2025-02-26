@@ -1,5 +1,7 @@
 package ray4rc.rayclient.modules;
 
+import ray4rc.rayclient.modules.combat.AimAssist;
+import ray4rc.rayclient.modules.combat.KillAura;
 import ray4rc.rayclient.modules.movement.Scaffold;
 import ray4rc.rayclient.modules.movement.Sprint;
 
@@ -43,5 +45,7 @@ public class ModuleManager {
     private void addModules() {
         modules.add(new Sprint());
         modules.add(new Scaffold());
+        modules.add(new KillAura());
+        modules.add(new AimAssist());
     }
 }

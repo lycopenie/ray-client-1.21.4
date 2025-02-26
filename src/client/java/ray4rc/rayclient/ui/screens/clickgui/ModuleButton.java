@@ -42,6 +42,9 @@ public class ModuleButton {
     }
 
     public boolean isHovered(double mouseX, double mouseY) {
+        if (!parent.extended) {
+            return false;
+        }
         return mouseX > parent.x && mouseX < parent.x + parent.width && mouseY > parent.y + offset && mouseY < parent.y + parent.height + offset;
     }
 }
