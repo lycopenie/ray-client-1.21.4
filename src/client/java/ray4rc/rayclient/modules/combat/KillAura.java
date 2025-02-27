@@ -68,11 +68,11 @@ public class KillAura extends Mod {
         Iterable<Entity> entities = mc.world.getEntities();
         List<EntityAttribute> targets = new ArrayList<>();
 
-        if (mc.player.getAttackCooldownProgress(0.0f) < 1.0f) { // full cooldown
+        if (mc.player.getAttackCooldownProgress(0.0f) < 0.9f) { // full cooldown
             return;
         }
 
-        if (mc.player.getVelocity().y >= -0.1f || mc.player.isOnGround()) { // criticals only
+        if (mc.player.getVelocity().y >= -0.07f || mc.player.isOnGround()) { // criticals only
             return;
         } else {
             LOGGER.info(String.valueOf(mc.player.getVelocity().y));
