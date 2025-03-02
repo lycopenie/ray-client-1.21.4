@@ -37,28 +37,25 @@ public class Scaffold extends Mod {
 
         if (placeBlock(belowPlayer)) return;
         Direction[] sides = Direction.values();
-        for(Direction side : sides)
-        {
+        for (Direction side : sides) {
             BlockPos neighbor = belowPlayer.offset(side);
-            if(placeBlock(neighbor))
+            if (placeBlock(neighbor))
                 return;
         }
 
         // next to the block that's under the player
-        for(Direction side : sides) {
-            for(Direction side2 : Arrays.copyOfRange(sides, side.ordinal(), 6))
-            {
-                if(side.getOpposite().equals(side2))
+        for (Direction side : sides) {
+            for (Direction side2 : Arrays.copyOfRange(sides, side.ordinal(), 6)) {
+                if (side.getOpposite().equals(side2))
                     continue;
 
                 BlockPos neighbor = belowPlayer.offset(side).offset(side2);
-                if(placeBlock(neighbor))
+                if (placeBlock(neighbor))
                     return;
             }
         }
         super.onTick();
     }
-
 
 
     private boolean placeBlock(BlockPos blockPos) {
@@ -68,11 +65,13 @@ public class Scaffold extends Mod {
             BlockPos neighbor = blockPos.offset(side);
             Direction side2 = side.getOpposite();
 
-            if (mc.world.getBlockState(neighbor).isAir()) continue;
-
-            if (eyesPos.squaredDistanceTo(Vec3d.ofCenter(blockPos)) >= eyesPos.squaredDistanceTo(Vec3d.ofCenter(neighbor))) continue;
+            if (mc.world.getBlockState(neighbor).isAir())
+                continue;
+            if (eyesPos.squaredDistanceTo(Vec3d.ofCenter(blockPos)) >= eyesPos.squaredDistanceTo(Vec3d.ofCenter(neighbor)))
+                continue;
             Vec3d hitVec = Vec3d.ofCenter(neighbor).add(Vec3d.of(side2.getVector()).multiply(0.5));
-            if(eyesPos.squaredDistanceTo(hitVec) > 18.0625) continue;
+            if (eyesPos.squaredDistanceTo(hitVec) > 18.0625)
+                continue;
 
             Vector2f rotation = getNeededRotations(hitVec);
             float yaw = rotation.getX();

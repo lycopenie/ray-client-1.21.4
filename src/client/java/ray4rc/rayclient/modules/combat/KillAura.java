@@ -72,10 +72,8 @@ public class KillAura extends Mod {
             return;
         }
 
-        if (mc.player.getVelocity().y >= -0.07f || mc.player.isOnGround()) { // criticals only
+        if (mc.player.getVelocity().y >= -0.08f || mc.player.isOnGround()) { // criticals only
             return;
-        } else {
-            LOGGER.info(String.valueOf(mc.player.getVelocity().y));
         }
 
         for (Entity entity : entities) {
@@ -109,5 +107,12 @@ public class KillAura extends Mod {
 
         mc.interactionManager.attackEntity(mc.player, target);
         mc.player.swingHand(Hand.MAIN_HAND);
+
+    }
+
+    @Override
+    public void onRender() {
+
+        super.onRender();
     }
 }

@@ -2,6 +2,7 @@ package ray4rc.rayclient.modules;
 
 import ray4rc.rayclient.modules.combat.AimAssist;
 import ray4rc.rayclient.modules.combat.KillAura;
+import ray4rc.rayclient.modules.combat.TriggerBot;
 import ray4rc.rayclient.modules.movement.Scaffold;
 import ray4rc.rayclient.modules.movement.Sprint;
 
@@ -47,5 +48,6 @@ public class ModuleManager {
         modules.add(new Scaffold());
         modules.add(new KillAura());
         modules.add(new AimAssist());
+        modules.add(new TriggerBot());
     }
 }
