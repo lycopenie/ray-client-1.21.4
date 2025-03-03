@@ -7,6 +7,7 @@ import ray4rc.rayclient.ui.screens.clickgui.ModuleButton;
 
 import java.awt.*;
 
+
 public class Checkbox extends Component {
     private BooleanSetting boolSet = (BooleanSetting) setting;
     public Checkbox(Setting setting, ModuleButton parent, int offset) {
@@ -28,8 +29,8 @@ public class Checkbox extends Component {
 
     @Override
     public void mouseClicked(double mouseX, double mouseY, int button) {
-//        if (isHovered(mouseX, mouseY) && button == 0)
-        boolSet.toggle();
+        if (isHovered(mouseX, mouseY) && button == 0)
+            boolSet.toggle();
 
         super.mouseClicked(mouseX, mouseY, button);
     }

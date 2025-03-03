@@ -3,6 +3,7 @@ package ray4rc.rayclient.ui.screens.clickgui.setting;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import ray4rc.rayclient.RayClientClient;
 import ray4rc.rayclient.modules.settings.Setting;
 import ray4rc.rayclient.ui.screens.clickgui.ModuleButton;
 

@@ -3,6 +3,7 @@ package ray4rc.rayclient.ui.screens.clickgui;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import ray4rc.rayclient.RayClientClient;
 import ray4rc.rayclient.modules.Mod;
 import ray4rc.rayclient.modules.settings.BooleanSetting;
 import ray4rc.rayclient.modules.settings.ModeSetting;
@@ -78,6 +79,10 @@ public class ModuleButton {
                 extended = !extended;
                 parent.updateButtons();
             }
+        }
+
+        for (Component component : components) {
+            component.mouseClicked(mouseX, mouseY, button);
         }
     }
 
