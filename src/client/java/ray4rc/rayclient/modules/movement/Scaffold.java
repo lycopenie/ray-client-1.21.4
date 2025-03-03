@@ -28,8 +28,6 @@ public class Scaffold extends Mod {
         assert mc.player != null;
         assert mc.world != null;
 
-        Vec3d playerPos = mc.player.getPos();
-        Vec3i playerBLockPos = new Vec3i((int) playerPos.x, (int) playerPos.y, (int) playerPos.z);
         BlockPos belowPlayer = BlockPos.ofFloored(mc.player.getPos()).down();
         BlockState blockBelow = mc.world.getBlockState(belowPlayer);
 
@@ -45,7 +43,6 @@ public class Scaffold extends Mod {
                 return;
         }
 
-        // next to the block that's under the player
         for(Direction side : sides)
             for(Direction side2 : Arrays.copyOfRange(sides, side.ordinal(), 6))
             {

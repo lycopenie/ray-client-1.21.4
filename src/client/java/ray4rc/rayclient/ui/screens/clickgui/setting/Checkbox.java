@@ -22,8 +22,16 @@ public class Checkbox extends Component {
         int right = left + parent.parent.width;
         int bottom = top + parent.parent.height;
 
-        context.fill(left, top, right, bottom, new Color(0, 0, 0, 120).getRGB());
-        context.drawText(tr, boolSet.getName() + ": " + boolSet.isEnabled(), left + 2, top + 2, Color.WHITE.getRGB(), false);
+        int charHeight = tr.fontHeight;
+        int midCharYOffset = (bottom+top)/2 - charHeight/2;
+
+        if (!isHovered(mouseX, mouseY)) {
+            context.fill(left, top, right, bottom, new Color(0, 0, 0, 120).getRGB());
+        } else {
+            context.fill(left, top, right, bottom, new Color(0, 0, 0, 200).getRGB());
+        }
+        context.drawText(tr, (boolSet.isEnabled() ? "□" : "■"), left + 3, midCharYOffset, Color.WHITE.getRGB(), false);
+        context.drawText(tr, boolSet.getName(), left + 11, midCharYOffset, Color.WHITE.getRGB(), false);
         super.render(context, mouseX, mouseY, delta);
     }
 

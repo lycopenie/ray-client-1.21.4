@@ -47,6 +47,7 @@ public class ModuleButton {
             } else if (setting instanceof NumberSetting) {
                 components.add(new Slider(setting, this, offset));
             }
+            setOffset += parent.height;
         }
     }
 
@@ -61,7 +62,11 @@ public class ModuleButton {
         } else {
             context.fill(left, top, right, bottom, new Color(0, 0, 0, 200).getRGB());
         }
-        context.drawText(tr, module.getName(), left + 2, top + 2, module.isEnabled() ? Color.red.getRGB() : -1, false);
+
+        int charHeight = tr.fontHeight;
+        int midCharYOffset = (bottom+top)/2 - charHeight/2;
+
+        context.drawText(tr, module.getName(), left + 2, midCharYOffset, module.isEnabled() ? Color.red.getRGB() : -1, false);
 
         if (extended) {
             for (Component component : components) {

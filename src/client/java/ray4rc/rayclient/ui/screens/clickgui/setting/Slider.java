@@ -5,6 +5,7 @@ import ray4rc.rayclient.modules.settings.NumberSetting;
 import ray4rc.rayclient.modules.settings.Setting;
 import ray4rc.rayclient.ui.screens.clickgui.ModuleButton;
 
+import java.awt.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -18,6 +19,21 @@ public class Slider extends Component {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        int left = parent.parent.x;
+        int top = parent.parent.y + parent.offset + offset;
+        int right = left + parent.parent.width;
+        int bottom = top + parent.parent.height;
+
+        int charHeight = tr.fontHeight;
+        int midCharYOffset = (bottom+top)/2 - charHeight/2;
+
+        if (!isHovered(mouseX, mouseY)) {
+            context.fill(left, top, right, bottom, new Color(0, 0, 0, 120).getRGB());
+        } else {
+            context.fill(left, top, right, bottom, new Color(0, 0, 0, 200).getRGB());
+        }
+
+
         super.render(context, mouseX, mouseY, delta);
     }
 
