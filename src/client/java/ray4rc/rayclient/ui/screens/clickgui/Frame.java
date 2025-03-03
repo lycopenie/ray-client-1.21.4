@@ -6,6 +6,7 @@ import net.minecraft.client.gui.DrawContext;
 import ray4rc.rayclient.modules.Mod;
 import ray4rc.rayclient.modules.Mod.Category;
 import ray4rc.rayclient.modules.ModuleManager;
+import ray4rc.rayclient.ui.screens.clickgui.setting.Component;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -84,6 +85,22 @@ public class Frame {
         if (dragging) {
             x = (int) (mouseX - dragX);
             y = (int) (mouseY - dragY);
+
+        }
+    }
+
+    public void updateButtons() {
+        int offset = height;
+
+        for (ModuleButton button : buttons) {
+            button.offset = offset;
+            offset += height;
+
+            if (button.extended) {
+                for (Component component: button.components) {
+                    if (component.setting.isVisible()) offset += height;
+                }
+            }
 
         }
     }

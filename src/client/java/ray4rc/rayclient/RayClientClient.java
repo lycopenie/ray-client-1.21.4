@@ -2,6 +2,8 @@ package ray4rc.rayclient;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +28,7 @@ public class RayClientClient implements ClientModInitializer {
 	}
 
 	public void onKeyPress(int key, int action) {
-		if (action == GLFW.GLFW_PRESS) {
+		if (action == GLFW.GLFW_PRESS && !(mc.currentScreen instanceof HandledScreen)) {
 			for (Mod module: ModuleManager.INSTANCE.getModules()) {
 				if (key == module.getKey()) module.toggle();
 			}

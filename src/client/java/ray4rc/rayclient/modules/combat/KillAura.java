@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ray4rc.rayclient.modules.Mod;
 import net.minecraft.entity.Entity;
+import ray4rc.rayclient.modules.settings.BooleanSetting;
+import ray4rc.rayclient.modules.settings.NumberSetting;
 
 import java.util.*;
 
@@ -22,7 +24,12 @@ public class KillAura extends Mod {
     public KillAura() {
         super("KillAura", "monkey see monkey kill", Category.COMBAT);
         this.setKey(GLFW.GLFW_KEY_R);
+        addSettings(critical, chargeProgress);
     }
+
+    public BooleanSetting critical = new BooleanSetting("Criticals", false);
+    public NumberSetting chargeProgress = new NumberSetting("Charge progress", 0, 1, 0.9, 0.1);
+
 
     static class EntityAttribute {
         Entity entity;
@@ -51,8 +58,6 @@ public class KillAura extends Mod {
             this.distance = distance;
             this.health = health;
             this.yaw = yaw;
-
-
         }
     }
 
@@ -68,12 +73,14 @@ public class KillAura extends Mod {
         Iterable<Entity> entities = mc.world.getEntities();
         List<EntityAttribute> targets = new ArrayList<>();
 
-        if (mc.player.getAttackCooldownProgress(0.0f) < 0.9f) { // full cooldown
+        if (mc.player.getAttackCooldownProgress(0.0f) < chargeProgress.getValue()) {
             return;
         }
 
-        if (mc.player.getVelocity().y >= -0.08f || mc.player.isOnGround()) { // criticals only
-            return;
+        if (critical.isEnabled()){
+            if (mc.player.getVelocity().y >= -0.08f || mc.player.isOnGround()) {
+                return;
+            }
         }
 
         for (Entity entity : entities) {

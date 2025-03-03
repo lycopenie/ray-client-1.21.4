@@ -3,6 +3,10 @@ package ray4rc.rayclient.modules;
 import net.minecraft.client.MinecraftClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ray4rc.rayclient.modules.settings.Setting;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Mod {
     private String name;
@@ -11,6 +15,9 @@ public class Mod {
     public Category category;
     private int key;
     private boolean enabled = false;
+
+    private List<Setting> settings = new ArrayList<>();
+
 
     protected static MinecraftClient mc = MinecraftClient.getInstance();
     protected static final String MOD_ID = "ray-client";
@@ -21,6 +28,18 @@ public class Mod {
 
         if (enabled) onEnable();
         else onDisable();
+    }
+
+    public List<Setting> getSettings() {
+        return settings;
+    }
+
+    public void addSetting(Setting setting) {
+        settings.add(setting);
+    }
+
+    public void addSettings(Setting... settings) {
+        for (Setting setting : settings) addSetting(setting);
     }
 
     public void onEnable() {
