@@ -43,9 +43,9 @@ public class ModuleButton {
             if (setting instanceof BooleanSetting) {
                 components.add(new Checkbox(setting, this, setOffset));
             } else if (setting instanceof ModeSetting) {
-                components.add(new ModeBox(setting, this, offset));
+                components.add(new ModeBox(setting, this, setOffset));
             } else if (setting instanceof NumberSetting) {
-                components.add(new Slider(setting, this, offset));
+                components.add(new Slider(setting, this, setOffset));
             }
             setOffset += parent.height;
         }

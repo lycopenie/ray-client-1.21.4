@@ -28,7 +28,7 @@ public class RayClientClient implements ClientModInitializer {
 	}
 
 	public void onKeyPress(int key, int action) {
-		if (action == GLFW.GLFW_PRESS && !(mc.currentScreen instanceof HandledScreen)) {
+		if (action == GLFW.GLFW_PRESS && !(mc.currentScreen instanceof Screen)) {
 			for (Mod module: ModuleManager.INSTANCE.getModules()) {
 				if (key == module.getKey()) module.toggle();
 			}

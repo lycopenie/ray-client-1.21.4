@@ -12,6 +12,8 @@ import java.math.RoundingMode;
 public class Slider extends Component {
     private NumberSetting numSet = (NumberSetting) setting;
 
+    private boolean sliding = false;
+
     public Slider(Setting setting, ModuleButton parent, int offset) {
         super(setting, parent, offset);
         this.numSet = (NumberSetting) setting;
@@ -27,11 +29,23 @@ public class Slider extends Component {
         int charHeight = tr.fontHeight;
         int midCharYOffset = (bottom+top)/2 - charHeight/2;
 
-        if (!isHovered(mouseX, mouseY)) {
-            context.fill(left, top, right, bottom, new Color(0, 0, 0, 120).getRGB());
-        } else {
-            context.fill(left, top, right, bottom, new Color(0, 0, 0, 200).getRGB());
+        context.fill(left, top, right, bottom, new Color(0, 0, 0, 120).getRGB());
+
+        double diff = Math.min(parent.parent.width, Math.max(0, mouseX - parent.parent.x));
+        int renderWidth = (int) (parent.parent.width * (numSet.getValue() - numSet.getMin()) / (numSet.getMax() - numSet.getMin()));
+
+        context.fill(left, top, left + renderWidth, bottom, new Color(255, 0, 0, 255).getRGB());
+
+        if (sliding) {
+            if (diff == 0) {
+                numSet.setValue(numSet.getMin());
+            } else {
+                numSet.setValue(roundToPlace((diff/parent.parent.width) * (numSet.getMax()-numSet.getMin()) + numSet.getMin(), 2));
+            }
         }
+
+
+        context.drawText(tr, numSet.getName() + ": " + roundToPlace(numSet.getValue(), 1), left + 2, midCharYOffset, Color.WHITE.getRGB(), false);
 
 
         super.render(context, mouseX, mouseY, delta);
@@ -39,11 +53,14 @@ public class Slider extends Component {
 
     @Override
     public void mouseClicked(double mouseX, double mouseY, int button) {
+        if (isHovered(mouseX, mouseY))
+            sliding = true;
         super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
     public void mouseReleased(double mouseX, double mouseY, int button) {
+        sliding = false;
         super.mouseReleased(mouseX, mouseY, button);
     }
 

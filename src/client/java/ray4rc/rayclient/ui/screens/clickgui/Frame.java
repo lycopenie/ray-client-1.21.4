@@ -74,6 +74,10 @@ public class Frame {
         if (button == 0 && dragging == true) {
             dragging = false;
         }
+
+        for (ModuleButton mb : buttons) {
+            mb.mouseReleased(mouseX, mouseY, button);
+        }
     }
 
 

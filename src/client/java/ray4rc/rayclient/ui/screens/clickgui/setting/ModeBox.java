@@ -37,6 +37,8 @@ public class ModeBox extends Component {
 
     @Override
     public void mouseClicked(double mouseX, double mouseY, int button) {
+        if (isHovered(mouseX, mouseY) && button == 0)
+            modeSet.cycle();
         super.mouseClicked(mouseX, mouseY, button);
     }
 }
