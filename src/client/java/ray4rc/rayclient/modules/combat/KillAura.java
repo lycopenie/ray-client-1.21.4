@@ -1,66 +1,31 @@
 package ray4rc.rayclient.modules.combat;
 
-import net.minecraft.entity.EntityType;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.glfw.GLFW;
-import org.slf4j.ILoggerFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ray4rc.rayclient.modules.Mod;
-import net.minecraft.entity.Entity;
 import ray4rc.rayclient.modules.settings.BooleanSetting;
 import ray4rc.rayclient.modules.settings.ModeSetting;
 import ray4rc.rayclient.modules.settings.NumberSetting;
 
-import java.util.*;
-
-import static ray4rc.rayclient.RayClientClient.LOGGER;
-import static ray4rc.rayclient.RayClientClient.MOD_ID;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 
 public class KillAura extends Mod {
-    public KillAura() {
-        super("KillAura", "monkey see monkey kill", Category.COMBAT);
-        this.setKey(GLFW.GLFW_KEY_R);
-        addSettings(critical, chargeProgress, mode);
-    }
-
     public BooleanSetting critical = new BooleanSetting("Criticals", false);
     public NumberSetting chargeProgress = new NumberSetting("Speed", 0, 1, 0.9, 0.05);
     public ModeSetting mode = new ModeSetting("Mode", "Single", "Single", "Switch", "Multi");
+    public NumberSetting range = new NumberSetting("Range", 0, 5, 5, 0.05);
 
-
-    static class EntityAttribute {
-        Entity entity;
-        float distance;
-        float health;
-        float yaw;
-
-        public Entity getEntity() {
-            return entity;
-        }
-
-        public float getDistance() {
-            return distance;
-        }
-
-        public float getHealth() {
-            return health;
-        }
-
-        public float getYaw() {
-            return yaw;
-        }
-
-        public EntityAttribute(Entity entity, float distance, float health, float yaw) {
-            this.entity = entity;
-            this.distance = distance;
-            this.health = health;
-            this.yaw = yaw;
-        }
+    public KillAura() {
+        super("KillAura", "monkey see monkey kill", Category.COMBAT);
+        this.setKey(GLFW.GLFW_KEY_R);
+        addSettings(critical, chargeProgress, range, mode);
     }
 
     @Override
@@ -79,7 +44,7 @@ public class KillAura extends Mod {
             return;
         }
 
-        if (!critical.isEnabled()){
+        if (critical.isEnabled()) {
             if (mc.player.getVelocity().y >= -0.08f || mc.player.isOnGround()) {
                 return;
             }
@@ -90,7 +55,7 @@ public class KillAura extends Mod {
                 continue;
             }
             float dist = entity.distanceTo(mc.player);
-            if (dist > 5.0f) {
+            if (dist > range.getValue()) {
                 continue;
             }
 
@@ -121,7 +86,36 @@ public class KillAura extends Mod {
 
     @Override
     public void onRender() {
-
         super.onRender();
+    }
+
+    static class EntityAttribute {
+        Entity entity;
+        float distance;
+        float health;
+        float yaw;
+
+        public EntityAttribute(Entity entity, float distance, float health, float yaw) {
+            this.entity = entity;
+            this.distance = distance;
+            this.health = health;
+            this.yaw = yaw;
+        }
+
+        public Entity getEntity() {
+            return entity;
+        }
+
+        public float getDistance() {
+            return distance;
+        }
+
+        public float getHealth() {
+            return health;
+        }
+
+        public float getYaw() {
+            return yaw;
+        }
     }
 }

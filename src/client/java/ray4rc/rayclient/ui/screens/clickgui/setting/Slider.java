@@ -45,7 +45,7 @@ public class Slider extends Component {
         }
 
 
-        context.drawText(tr, numSet.getName() + ": " + roundToPlace(numSet.getValue(), 1), left + 2, midCharYOffset, Color.WHITE.getRGB(), false);
+        context.drawText(tr, numSet.getName() + ": " + roundToPlace(numSet.getValue(), 2), left + 2, midCharYOffset, Color.WHITE.getRGB(), false);
 
 
         super.render(context, mouseX, mouseY, delta);

@@ -30,7 +30,7 @@ public class Checkbox extends Component {
         } else {
             context.fill(left, top, right, bottom, new Color(0, 0, 0, 200).getRGB());
         }
-        context.drawText(tr, (boolSet.isEnabled() ? "□" : "■"), left + 3, midCharYOffset, Color.WHITE.getRGB(), false);
+        context.drawText(tr, (boolSet.isEnabled() ? "■" : "□"), left + 3, midCharYOffset, Color.WHITE.getRGB(), false);
         context.drawText(tr, boolSet.getName(), left + 11, midCharYOffset, Color.WHITE.getRGB(), false);
         super.render(context, mouseX, mouseY, delta);
     }
