@@ -11,8 +11,7 @@ public class Sprint extends Mod {
 
     @Override
     public void onTick() {
-        assert mc.player != null;
-        mc.player.setSprinting(true);
+        mc.options.sprintKey.setPressed(true);
         super.onTick();
     }
 }

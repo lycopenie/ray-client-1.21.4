@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ray4rc.rayclient.modules.Mod.Category;
+import ray4rc.rayclient.modules.player.AutoPearlFlash;
+import ray4rc.rayclient.modules.player.AutoTotem;
 
 public class ModuleManager {
     public static final ModuleManager INSTANCE = new ModuleManager();
@@ -49,5 +51,7 @@ public class ModuleManager {
         modules.add(new TriggerBot());
         modules.add(new AutoDTap());
         modules.add(new FastCrystal());
+        modules.add(new AutoTotem());
+        modules.add(new AutoPearlFlash());
     }
 }
