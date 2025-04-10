@@ -9,6 +9,7 @@ import java.util.List;
 
 import ray4rc.rayclient.modules.Mod.Category;
 import ray4rc.rayclient.modules.player.AutoPearlFlash;
+import ray4rc.rayclient.modules.player.AutoSwitch;
 import ray4rc.rayclient.modules.player.AutoTotem;
 
 public class ModuleManager {
@@ -20,6 +21,15 @@ public class ModuleManager {
 
     public List<Mod> getModules() {
         return modules;
+    }
+
+    public <T extends Mod> T getModule(Class<T> mod) {
+        for (Mod module: modules) {
+            if (mod.isInstance(module)) {
+                return (T) module;
+            }
+        }
+        return null;
     }
 
     public List<Mod> getEnabledModules() {
@@ -53,5 +63,8 @@ public class ModuleManager {
         modules.add(new FastCrystal());
         modules.add(new AutoTotem());
         modules.add(new AutoPearlFlash());
+        modules.add(new AttributeSwap());
+        modules.add(new AutoSwitch());
+        modules.add(new CartPlacer());
     }
 }

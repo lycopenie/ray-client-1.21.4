@@ -1,6 +1,9 @@
 package ray4rc.rayclient.modules;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerInteractionManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ray4rc.rayclient.modules.settings.Setting;
@@ -20,6 +23,7 @@ public class Mod {
 
 
     protected static MinecraftClient mc = MinecraftClient.getInstance();
+
     protected static final String MOD_ID = "ray-client";
     protected static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
@@ -54,10 +58,17 @@ public class Mod {
 
     }
 
-    public void onRender() {
+    public void onPreTick() {
 
     }
 
+    public void onPostTick() {
+
+    }
+
+    public void onRender() {
+
+    }
 
     public String getName() {
         return name;
@@ -107,6 +118,7 @@ public class Mod {
         this.description = description;
         this.category = category;
     }
+
     public enum Category {
         COMBAT,
         PLAYER,

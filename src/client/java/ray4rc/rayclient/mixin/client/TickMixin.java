@@ -13,4 +13,9 @@ public class TickMixin {
 	public void onTick(CallbackInfo ci) {
 		RayClientClient.INSTANCE.onTick();
 	}
+
+	@Inject(method = "tick", at = @At("TAIL"))
+	public void onPostTick(CallbackInfo ci) {
+		RayClientClient.INSTANCE.onPostTick();
+	}
 }

@@ -5,8 +5,9 @@
   "client": [
     "InGameHudMixin",
     "KeyboardMixin",
-    "RenderMixin",
-    "TickMixin"
+    "TickMixin",
+    "PlayerEntityMixin",
+    "GameRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -84,11 +84,6 @@ public class KillAura extends Mod {
 
     }
 
-    @Override
-    public void onRender() {
-        super.onRender();
-    }
-
     static class EntityAttribute {
         Entity entity;
         float distance;

@@ -36,10 +36,13 @@ public class TriggerBot extends Mod {
             }
         }
 
-        Entity target = eResult.getEntity();
 
-        mc.interactionManager.attackEntity(mc.player, target);
-        mc.player.swingHand(Hand.MAIN_HAND);
+//        Entity target = eResult.getEntity();
+//
+//        mc.interactionManager.attackEntity(mc.player, target);
+//        mc.player.swingHand(Hand.MAIN_HAND);
+
+        mc.options.attackKey.setPressed(true);
 
         super.onTick();
 

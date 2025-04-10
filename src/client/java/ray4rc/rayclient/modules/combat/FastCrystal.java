@@ -14,18 +14,26 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import ray4rc.rayclient.RayClientClient;
 import ray4rc.rayclient.modules.Mod;
+import ray4rc.rayclient.modules.settings.NumberSetting;
+import ray4rc.rayclient.ui.screens.clickgui.setting.Slider;
 
 import java.util.Set;
 
 public class FastCrystal extends Mod {
+    public NumberSetting speed = new NumberSetting("Speed", 1, 20, 1, 1);
+
     public FastCrystal() {
         super("FastCrystal", "monkey see monkey kill", Category.COMBAT);
+        addSettings(speed);
     }
 
     Set<Item> whitelistedItems = Set.of(Items.OBSIDIAN, Items.END_CRYSTAL, Items.NETHERITE_SWORD, Items.TOTEM_OF_UNDYING);
 
     boolean previousState = false;
     int oldSlot = -1;
+
+
+    int ticksSinceEnabled = 0;
 
     @Override
     public void onTick() {
@@ -39,7 +47,7 @@ public class FastCrystal extends Mod {
             HitResult hitResult = mc.crosshairTarget;
             if (hitResult instanceof EntityHitResult eResult) {
                 Entity target = eResult.getEntity();
-                if (target instanceof EndCrystalEntity) {
+                if (target instanceof EndCrystalEntity && ticksSinceEnabled % speed.getValueInt() == 0) {
                     mc.interactionManager.attackEntity(mc.player, target);
                     mc.player.swingHand(Hand.MAIN_HAND);
                 }
@@ -68,9 +76,20 @@ public class FastCrystal extends Mod {
                 mc.interactionManager.interactBlock(mc.player, Hand.MAIN_HAND, blockHitResult);
 
             }
+            ticksSinceEnabled += 1;
         }
         else if (previousState && !mc.options.useKey.isPressed()) {
             mc.player.getInventory().selectedSlot = oldSlot;
+            ticksSinceEnabled = 0;
+            
+            HitResult hitResult = mc.crosshairTarget;
+            if (hitResult instanceof EntityHitResult eResult) {
+                Entity target = eResult.getEntity();
+                if (target instanceof EndCrystalEntity && ticksSinceEnabled % speed.getValueInt() == 0) {
+                    mc.interactionManager.attackEntity(mc.player, target);
+                    mc.player.swingHand(Hand.MAIN_HAND);
+                }
+            }
         }
         super.onTick();
         previousState = mc.options.useKey.isPressed();

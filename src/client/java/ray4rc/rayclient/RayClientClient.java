@@ -23,8 +23,15 @@ public class RayClientClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
+		LOGGER.info(
 
 
+				"ray was here\n" +
+				"superduperdopewebsite.vercel.app"
+
+
+
+		);
 	}
 
 	public void onKeyPress(int key, int action) {
@@ -45,10 +52,26 @@ public class RayClientClient implements ClientModInitializer {
 		}
 	}
 
+	public void onPreTick() {
+		if (mc.player != null) {
+			for (Mod module: ModuleManager.INSTANCE.getEnabledModules()) {
+				module.onPreTick();
+			}
+		}
+	}
+
 	public void onRender() {
 		if (mc.player != null) {
 			for (Mod module: ModuleManager.INSTANCE.getEnabledModules()) {
 				module.onRender();
+			}
+		}
+	}
+
+	public void onPostTick() {
+		if (mc.player != null) {
+			for (Mod module: ModuleManager.INSTANCE.getEnabledModules()) {
+				module.onPostTick();
 			}
 		}
 	}
